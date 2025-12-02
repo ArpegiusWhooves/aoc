@@ -1,0 +1,26 @@
+use std::str::FromStr;
+use testing::aoc21l::{Num,Value::*,Info,Info::*,OperationType::*};
+use testing::AutoIndex;
+
+grammar(aid: &mut AutoIndex<'input>);
+
+Unsigned: usize = <s:r"[0-9]+"> => usize::from_str(s).unwrap();
+
+// Value: Value = {
+//     <Num> => Value::Number(<>),
+//     "old" => Value::Old,
+// }
+
+Name: usize = <r"[a-z]+"> => aid.get(<>);
+
+Operation: Info = {
+    <c:Unsigned> => Constant(c as Num),
+    <l:Name> "+" <r:Name> => Operation(Add,Reference(l),Reference(r)),
+    <l:Name> "-" <r:Name> => Operation(Substract,Reference(l),Reference(r)),
+    <l:Name> "*" <r:Name> => Operation(Multiply,Reference(l),Reference(r)),
+    <l:Name> "/" <r:Name> => Operation(Divide,Reference(l),Reference(r)),
+}
+
+MathMonkey = <Name> ":" <Operation>;
+
+pub MathMonkeys = <MathMonkey+>;

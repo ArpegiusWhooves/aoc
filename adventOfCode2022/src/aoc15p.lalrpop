@@ -1,0 +1,11 @@
+use std::str::FromStr;
+
+grammar;
+
+pub Num: i32 = <s:r"[-0-9]+"> => i32::from_str(s).unwrap();
+ 
+Pos: (i32,i32) = "x" "=" <Num> "," "y" "=" <Num>;
+
+Sensor: ((i32,i32),(i32,i32)) = "Sensor" "at" <Pos> ":" "closest" "beacon" "is" "at" <Pos>;
+
+pub Sensors = <Sensor*>;

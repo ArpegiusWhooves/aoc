@@ -1,0 +1,21 @@
+use std::str::FromStr;
+use testing::aoc19l::{Num,Cost,Blueprint};
+
+grammar;
+
+Num: Num = <s:r"[-0-9]+"> => Num::from_str(s).unwrap();
+
+
+Cost: Cost = {
+    <ore:Num> "ore" => Cost{ore, clay:0, obsidian:0 },
+    <ore:Num> "ore" "and" <clay:Num> "clay" => Cost{ore, clay, obsidian:0 },
+    <ore:Num> "ore" "and" <obsidian:Num> "obsidian" => Cost{ore, clay:0, obsidian },
+};
+
+pub Blueprint: Blueprint = "Blueprint" <id:Num> ":"
+        "Each" "ore" "robot" "costs" <ore_robot:Cost> "."
+        "Each" "clay" "robot" "costs" <clay_robot:Cost> "."
+        "Each" "obsidian" "robot" "costs" <obsidian_robot:Cost> "."
+        "Each" "geode" "robot" "costs" <geode_robot:Cost> "." => Blueprint{<>};
+
+pub Blueprints = <Blueprint+>;

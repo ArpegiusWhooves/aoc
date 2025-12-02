@@ -1,0 +1,37 @@
+use std::str::FromStr;
+use std::collections::VecDeque;
+use testing::aoc11l::{Monkey,Operation,Value};
+
+grammar;
+ 
+pub Num: i64 = <s:r"\w+"> => i64::from_str(s).unwrap();
+
+Comma<T>: VecDeque<T> = { // (1)
+    <mut v:(<T> ",")*> <e:T?> => match e { // (2)
+        None => v.into(),
+        Some(e) => {
+            v.push(e);
+            v.into()
+        }
+    }
+};
+
+Value: Value = {
+    <Num> => Value::Number(<>),
+    "old" => Value::Old,
+}
+
+Operation: Operation = {
+ <Value> "*" <Value> => Operation::Multiply(<>), 
+ <Value> "+" <Value> => Operation::Add(<>),
+}
+
+pub Monkey: Monkey = 
+"Monkey" <nr:Num> ":"
+  "Starting" "items" ":" <worry_items:Comma<Num>>
+  "Operation" ":" "new" "=" <operation:Operation>
+  "Test" ":" "divisible" "by" <test_divisible_by:Num>
+    "If" "true" ":" "throw" "to" "monkey" <if_true_throw_to:Num>
+    "If" "false" ":" "throw" "to" "monkey" <if_false_throw_to:Num> => Monkey{<>};
+
+pub Monkeys = <Monkey*>;

@@ -1,0 +1,12 @@
+[package]
+name = "adventOfCode2025"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+dotenv = "0.15.0"
+miette = "7.6.0"
+ureq = "3.1.4"
+array2d = "0.3.2"
+regex = "1.12.2"
+itertools = "0.14.0"

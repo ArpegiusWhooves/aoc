@@ -1,0 +1,9 @@
+use std::str::FromStr;
+
+grammar;
+ 
+Num: usize = <s:r"[0-9]+"> => usize::from_str(s).unwrap();
+
+pub Move = "move" <Num> "from" <Num> "to" <Num>;
+
+pub Moves = <Move*>;

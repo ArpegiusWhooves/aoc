@@ -1,0 +1,27 @@
+[package]
+name = "testing"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies] # <-- We added this and everything after!
+lalrpop = "0.19.8"
+
+[dependencies]
+float_eq = "1.0.0"
+itertools = "0.10.3"
+lalrpop = "0.19.8"
+lalrpop-util = "0.19.8"
+miette = { version = "5.5.0", features = ["fancy"] }
+pathfinding = "4.1.1"
+serde_json = "1.0.89"
+thiserror = "1.0.37"
+ureq = "2.5.0"
+glam = "0.22.0"
+bitmask-enum = "2.1.0"
+ndarray = "0.15.6"
+num = "0.4.0"
+dotenv = "0.15.0"
+#fixedbitset = "0.4.2"
+#hashcow = "0.2.0"

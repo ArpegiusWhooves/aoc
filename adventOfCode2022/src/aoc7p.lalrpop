@@ -1,0 +1,23 @@
+use std::str::FromStr;
+
+use aoc7l::Node;
+
+grammar;
+ 
+Num: usize = <s:r"\w+"> => usize::from_str(s).unwrap();
+
+//pub CdRoot = "$" "cd" "/";
+pub CdTop = "$" "cd" "..";
+pub CdCmd = "$" "cd" <r"\w+">;
+pub LsCmd = "$" "ls";
+
+pub DirEntry: Node = {
+    <s:Num> <n:r"\w+"> => Node::File(s,n),
+    "dir" <n:r"\w+"> => Node::Dir(Vec::new()),
+};
+
+pub Comands : Node = <d:CdCmd> LsCmd <e:DirEntry+> <s:Comands+> CdTop => {
+    Node::Empty
+};
+
+
